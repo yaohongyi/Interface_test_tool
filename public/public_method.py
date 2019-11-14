@@ -24,7 +24,7 @@ def get_project_name():
 project_name = get_project_name()
 
 
-def get_log_path(file_name='ui_test.log'):
+def get_log_path(file_name='interface_test.log'):
     """
     获得日志文件保存路径
     :param file_name: 日志文件名称
