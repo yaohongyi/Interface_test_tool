@@ -5,10 +5,65 @@ import os
 import configparser
 import json
 import xlrd
+import logging
+import requests
 
 
-def get_config_path(project_name='Interface_test_tool', file_name='config.ini'):
-    """获得config.ini文件保存路径"""
+def get_project_name():
+    """
+    获得当前项目名称
+    :return: 项目名称
+    """
+    sep = str(os.sep)
+    current_file_path = os.path.split(os.path.abspath(__file__))[0]
+    path_split = current_file_path.split(sep)
+    name = path_split[2]
+    return name
+
+
+project_name = get_project_name()
+
+
+def get_log_path(file_name='ui_test.log'):
+    """
+    获得日志文件保存路径
+    :param file_name: 日志文件名称
+    :return: 日志文件绝对路径
+    """
+    sep = str(os.sep)
+    current_file_path = os.path.split(os.path.abspath(__file__))[0]
+    path_split = current_file_path.split(sep)
+    project_index = path_split.index(project_name)
+    need_path = path_split[:project_index + 1]
+    need_path.append(file_name)
+    finally_path = sep.join(need_path)
+    return finally_path
+
+
+def log_config():
+    log_path = get_log_path()
+    root_logger = logging.getLogger()
+    root_logger.setLevel('INFO')
+    basic_format = "%(asctime)s [%(levelname)s] %(message)s"
+    date_format = '%Y-%m-%d %H:%M:%S'
+    formatter = logging.Formatter(basic_format, date_format)
+    sh = logging.StreamHandler()
+    sh.setFormatter(formatter)
+    fh = logging.FileHandler(log_path)
+    fh.setFormatter(formatter)
+    root_logger.addHandler(sh)
+    root_logger.addHandler(fh)
+
+
+log_config()
+
+
+def get_config_path(file_name='config.ini'):
+    """
+    获得config.ini文件路径
+    :param file_name: 配置文件名称
+    :return: 配置文件绝对路径
+    """
     sep = str(os.sep)
     current_file_path = os.path.split(os.path.abspath(__file__))[0]
     path_split = current_file_path.split(sep)
@@ -42,8 +97,12 @@ def get_ip_port():
     return ip, port
 
 
-def get_excel_path(project_name='Interface_test_tool', file_name='interface_config.xlsx'):
-    """获得excel文件保存路径"""
+def get_excel_path(file_name='interface_config.xlsx'):
+    """
+    获得excel文件绝对路径
+    :param file_name: excel文件名称
+    :return: excel文件绝对路径
+    """
     sep = str(os.sep)
     current_file_path = os.path.split(os.path.abspath(__file__))[0]
     path_split = current_file_path.split(sep)
@@ -71,21 +130,36 @@ def read_excel(interface_name, sheet_name='接口配置') -> dict:
     row_num = case_title_list.index(interface_name)
     row_value = sheet.row_values(row_num)
     info = {
-        'name': row_value[0],
+        'interface_name': row_value[0],
         'describe': row_value[1],
-        'method': row_value[2],
-        'path': row_value[3],
-        'parameter': row_value[4]
+        'protocol': row_value[2],
+        'method': row_value[3],
+        'path': row_value[4],
+        'parameter': row_value[5]
     }
     return info
 
 
-def get_interface_name_list(sheet_name='接口配置'):
-    """获取接口名清单"""
+def get_interface_name_list(sheet_name='接口配置') -> list:
+    """
+    获取excel中的接口中文名列表
+    :param sheet_name: sheet页名称
+    :return: 接口中文名列表
+    """
     excel = xlrd.open_workbook(excel_path)
     sheet = excel.sheet_by_name(sheet_name)
     interface_name_list = sheet.col_values(1, -1)
     return interface_name_list
+
+
+def str_to_dict(str_object) -> dict:
+    """
+    将字符串形式的字典转化成字典
+    :param str_object: 字符串对象
+    :return: 字典对象
+    """
+    dict_object = eval(str_object)
+    return dict_object
 
 
 def get_request_parameter(interface_info):
@@ -94,7 +168,7 @@ def get_request_parameter(interface_info):
     :param interface_info: excel读取的接口信息
     :return: 接口请求字典
     """
-    parameter = eval(interface_info.get('parameter'))
+    parameter = str_to_dict(interface_info.get('parameter'))
     return parameter
 
 
@@ -109,5 +183,4 @@ def format_beautify(dict_object):
 
 
 if __name__ == '__main__':
-    result = get_interface_list()
-    print(result)
+    ...

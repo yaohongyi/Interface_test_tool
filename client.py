@@ -6,6 +6,7 @@ import sys
 from public import public_method
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import *
+from public.interface_request import InterfaceRequest
 
 
 class Client(QWidget):
@@ -35,12 +36,12 @@ class Client(QWidget):
         port_validator.setRange(0, 65535)
         self.port_input.setValidator(port_validator)
         self.port_input.setPlaceholderText('请输入端口')
-        self.path_label = QLabel('接口路径：')
+        self.path_label = QLabel('请求接口：')
         self.path_combo_box = QComboBox()
         interface_name_list = public_method.get_interface_name_list()  # 通过excel读取下拉框可选项
         interface_name_list.insert(0, '自定义')
         self.path_combo_box.addItems(interface_name_list)
-        self.path_combo_box.currentIndexChanged.connect(self.path_option_change)
+        self.path_combo_box.currentIndexChanged.connect(self.interface_option_change)
         self.path_input = QLineEdit()
         self.path_input.setPlaceholderText('请输入路径')
         self.request_time_label = QLabel('请求次数：')
@@ -78,13 +79,13 @@ class Client(QWidget):
         # 按钮分组框
         self.button_group_box = QGroupBox()
         self.client_grid.addWidget(self.button_group_box, 9, 0, 1, 1)
-        self.send_button = QPushButton('发送(F10)')
+        self.send_button = QPushButton('发起请求(F10)')
         self.send_button.setShortcut('F10')
-        self.send_button.clicked.connect(self.send_action)
-        self.clear_button = QPushButton('清空(Ctrl+L)')
-        self.clear_button.setShortcut('Ctrl+L')
-        self.save_button = QPushButton('保存(Ctrl+S)')
+        self.send_button.clicked.connect(self.request_action)
+        self.save_button = QPushButton('保存信息(Ctrl+S)')
         self.save_button.setShortcut('Ctrl+S')
+        self.clear_button = QPushButton('清空日志(Ctrl+L)')
+        self.clear_button.setShortcut('Ctrl+L')
         # 按钮分组框布局
         self.button_grid = QGridLayout(self.button_group_box)
         self.button_grid.addWidget(self.send_button, 0, 0)
@@ -97,7 +98,7 @@ class Client(QWidget):
         # 【响应信息】分组框布局
         self.response_grid = QGridLayout(self.response_group_box)
         self.response_grid.addWidget(self.response_text)
-        # 设置界面初始值
+        # 设置界面字段值初始值
         self.set_default()
 
     def set_default(self):
@@ -105,20 +106,25 @@ class Client(QWidget):
         self.ip_input.setText(ip)
         self.port_input.setText(port)
 
-    def path_option_change(self):
-        """请求路径下拉框选项变更时，路径输入框产生变化"""
-        path_option = self.path_combo_box.currentText()
-        if path_option != '自定义':
+    def interface_option_change(self):
+        """"""
+        interface_option = self.path_combo_box.currentText()
+        if interface_option != '自定义':
+            # 读取excel
+            interface_info = public_method.read_excel(interface_option)
+            # 设置接口协议
+            protocol = interface_info.get('protocol')
+            self.http_protocol_combo_box.setCurrentText(protocol)
             # 设置path_input不可编辑
             self.path_input.setEnabled(False)
-            # 读取excel
-            interface_info = public_method.read_excel(path_option)
+            # 设置请求方法
+            request_method = interface_info.get('method')
+            self.request_method_combo_box.setCurrentText(request_method)
             # 设置接口请求路径
             path = interface_info.get('path')
             self.path_input.setText(path)
             # 设置请求参数
             parameter = public_method.get_request_parameter(interface_info)
-            # beautify_parameter = public_method.format_beautify(parameter)
             self.parameter_text_edit.setPlainText(str(parameter))
         else:
             self.path_input.setEnabled(True)
@@ -155,12 +161,15 @@ class Client(QWidget):
         url = f'{protocol}://{ip}:{port}{path}'
         return url
 
-    def send_action(self):
+    def request_action(self):
         """发送接口请求"""
-        result = self.get_window_info()
-        print(result)
-        url = self.join_url(result)
-        print(url)
+        window_info = self.get_window_info()
+        print(window_info)
+        url = self.join_url(window_info)
+        request_parameter = window_info.get('parameter')
+        request_thread = InterfaceRequest(url, request_parameter)
+        request_thread.text.connect(self.print_action)
+        request_thread.start()
 
     def clear_action(self):
         """清空响应消息"""
@@ -170,8 +179,9 @@ class Client(QWidget):
         """保存窗口信息到文件"""
         ...
 
-    def print_log_action(self):
-        ...
+    def print_action(self, text):
+        """"""
+        self.response_text.append(text)
 
 
 def main():
