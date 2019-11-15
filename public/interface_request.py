@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # 都君丨大魔王
-
+import logging
 from public.public_method import *
 from PyQt5 import QtCore
 
@@ -17,6 +17,16 @@ class InterfaceRequest(QtCore.QThread):
 
     def post_request(self):
         res = requests.post(self.url, data=json.dumps(self.request_parameter), headers=self.headers).json()
+        res_beautify = format_beautify(res)
+        req_beautify = format_beautify(self.request_parameter)
+        logging.info(f'【请求消息】：\n{req_beautify}')
+        logging.info(f'【响应消息】：\n{res_beautify}')
+        self.text.emit(f'【请求消息】：\n{req_beautify}')
+        self.text.emit('')
+        self.text.emit(f'【响应消息】：\n{res_beautify}')
+        self.text.emit('')
+        self.text.emit('≡' * 36)
+        self.text.emit('')
         return res
 
     def run(self):

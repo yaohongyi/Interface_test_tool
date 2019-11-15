@@ -3,6 +3,7 @@
 # 都君丨大魔王
 
 import sys
+import logging
 from public import public_method
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import *
@@ -86,6 +87,7 @@ class Client(QWidget):
         self.save_button.setShortcut('Ctrl+S')
         self.clear_button = QPushButton('清空日志(Ctrl+L)')
         self.clear_button.setShortcut('Ctrl+L')
+        self.clear_button.clicked.connect(self.clear_action)
         # 按钮分组框布局
         self.button_grid = QGridLayout(self.button_group_box)
         self.button_grid.addWidget(self.send_button, 0, 0)
@@ -150,6 +152,8 @@ class Client(QWidget):
             'request_interval': request_interval,
             'parameter': parameter
         }
+        window_info_beautify = public_method.format_beautify(window_info)
+        logging.debug(f'The window info is：\n{window_info_beautify}')
         return window_info
 
     @staticmethod
@@ -164,12 +168,11 @@ class Client(QWidget):
     def request_action(self):
         """发送接口请求"""
         window_info = self.get_window_info()
-        print(window_info)
         url = self.join_url(window_info)
         request_parameter = window_info.get('parameter')
-        request_thread = InterfaceRequest(url, request_parameter)
-        request_thread.text.connect(self.print_action)
-        request_thread.start()
+        self.request_thread = InterfaceRequest(url, eval(request_parameter))
+        self.request_thread.text.connect(self.print_action)
+        self.request_thread.start()
 
     def clear_action(self):
         """清空响应消息"""
