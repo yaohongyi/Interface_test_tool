@@ -194,8 +194,10 @@ def get_relevance_interface(excel_data):
     relevance_interface_list = relevance_interface_str.split('、')
     return relevance_interface_list
 
-def get_relevance_parameter:
+
+def get_relevance_parameter():
     ...
+
 
 if __name__ == '__main__':
     res = {
