@@ -53,6 +53,7 @@ class Client(QWidget):
         self.request_interval_spin_box.setRange(0, 1000)
         self.parameter_label = QLabel('请求参数：')
         self.parameter_text_edit = QPlainTextEdit()
+        self.parameter_text_edit.setPlaceholderText('非自定义接口的请求参数可以在Excel文件中进行配置')
         # 【请求信息】分组框布局
         self.request_grid = QGridLayout(self.request_group_box)
         self.request_grid.addWidget(self.http_protocol_label, 0, 0, 1, 1)
@@ -104,6 +105,7 @@ class Client(QWidget):
         self.set_default()
 
     def set_default(self):
+        """"""
         ip, port = public_method.get_ip_port()
         self.ip_input.setText(ip)
         self.port_input.setText(port)
@@ -133,7 +135,11 @@ class Client(QWidget):
             self.path_input.clear()
             self.parameter_text_edit.clear()
 
-    def get_window_info(self):
+    def get_window_info(self) -> dict:
+        """
+        获取客户端上所有字段的值
+        :return: 客户端所有的字段值组成的字典
+        """
         protocol = self.http_protocol_combo_box.currentText()
         request_method = self.request_method_combo_box.currentText()
         ip = self.ip_input.text()

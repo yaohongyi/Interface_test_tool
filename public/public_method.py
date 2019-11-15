@@ -148,7 +148,7 @@ def get_interface_name_list(sheet_name='接口配置') -> list:
     """
     excel = xlrd.open_workbook(excel_path)
     sheet = excel.sheet_by_name(sheet_name)
-    interface_name_list = sheet.col_values(1, -1)
+    interface_name_list = sheet.col_values(colx=1, start_rowx=1)
     return interface_name_list
 
 
@@ -158,7 +158,11 @@ def str_to_dict(str_object) -> dict:
     :param str_object: 字符串对象
     :return: 字典对象
     """
-    dict_object = eval(str_object)
+    try:
+        dict_object = eval(str_object)
+    except Exception as reason:
+        logging.error(reason)
+        dict_object = f'Excel文件请求参数中：{reason}！'
     return dict_object
 
 
@@ -183,4 +187,5 @@ def format_beautify(dict_object):
 
 
 if __name__ == '__main__':
-    ...
+    result = get_interface_name_list()
+    print(result)
