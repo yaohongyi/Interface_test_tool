@@ -129,15 +129,17 @@ def read_excel(interface_name, sheet_name='接口配置') -> dict:
     case_title_list = sheet.col_values(1)
     row_num = case_title_list.index(interface_name)
     row_value = sheet.row_values(row_num)
-    info = {
+    excel_data = {
         'interface_name': row_value[0],
         'describe': row_value[1],
         'protocol': row_value[2],
         'method': row_value[3],
         'path': row_value[4],
-        'parameter': row_value[5]
+        'parameter': row_value[5],
+        'relevance_interface': row_value[6],
+        'relevance_parameter': row_value[7]
     }
-    return info
+    return excel_data
 
 
 def get_interface_name_list(sheet_name='接口配置') -> list:
@@ -186,6 +188,25 @@ def format_beautify(dict_object):
     return dict_beautify
 
 
+def get_relevance_interface(excel_data):
+    """"""
+    relevance_interface_str = excel_data.get('relevance_interface')
+    relevance_interface_list = relevance_interface_str.split('、')
+    return relevance_interface_list
+
+def get_relevance_parameter:
+    ...
+
 if __name__ == '__main__':
-    result = get_interface_name_list()
-    print(result)
+    res = {
+        'hasError': False,
+        'errorDesc': '',
+        'data': [
+            {'name': 'lily', 'age': 18},
+            {'name': 'lucy', 'age': 19}
+        ]
+    }
+    a = 'hasError'
+    b = 'data[0]'
+    c = 'data[0].name'
+    d = 'data[0].age'
