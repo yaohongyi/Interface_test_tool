@@ -176,7 +176,9 @@ class Client(QWidget):
         window_info = self.get_window_info()
         url = self.join_url(window_info)
         request_parameter = window_info.get('parameter')
-        self.request_thread = InterfaceRequest(url, eval(request_parameter))
+        request_time = window_info.get('request_time')
+        request_interval = window_info.get('request_interval')
+        self.request_thread = InterfaceRequest(url, eval(request_parameter), request_time, request_interval)
         self.request_thread.text.connect(self.print_action)
         self.request_thread.start()
 
