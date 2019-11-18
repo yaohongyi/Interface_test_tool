@@ -195,8 +195,12 @@ def get_relevance_interface(excel_data):
     return relevance_interface_list
 
 
-def get_relevance_parameter():
-    ...
+def get_relevance_parameter(target_res, target_object):
+    if isinstance(target_object, str):
+        new_target_object = target_object.split('.')
+    else:
+        new_target_object = target_object
+    target_object_len = len(new_target_object)
 
 
 if __name__ == '__main__':
@@ -209,6 +213,8 @@ if __name__ == '__main__':
         ]
     }
     a = 'hasError'
-    b = 'data[0]'
-    c = 'data[0].name'
-    d = 'data[0].age'
+    b = 'data.[0]'
+    c = 'data.[0].name'
+    d = 'data.[0].age'
+    result = get_relevance_parameter(res, c)
+    print(result)
