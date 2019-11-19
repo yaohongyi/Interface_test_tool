@@ -195,12 +195,40 @@ def get_relevance_interface(excel_data):
     return relevance_interface_list
 
 
-def get_relevance_parameter(target_res, target_object):
-    if isinstance(target_object, str):
-        new_target_object = target_object.split('.')
+def get_relevance_parameter(res, field_name):
+    """"""
+    if isinstance(field_name, str):
+        field_list = field_name.split('.')
     else:
-        new_target_object = target_object
-    target_object_len = len(new_target_object)
+        field_list = field_name
+    field_list_len = len(field_list)
+    if field_list_len == 1:
+        if field_list[0].startswith('[') and field_list[0].endswith(']'):
+            index = int(field_list[0][1:-1])
+            field_value = res[index]
+        else:
+            field_value = res.get(field_list[0], 'error')
+        if field_value == 'error':
+            logs = f"The field \'{field_list[0]}\' is not found, Please check!"
+            logging.warning(logs)
+        else:
+            logs = f"The field \'{field_list[0]}\' was be found, the value is：{field_value}"
+            logging.info(logs)
+        return field_value
+    else:
+        for field in field_list:
+            if field.startswith('[') and field.endswith(']'):
+                index = int(field[1:-1])
+                field_value = res[index]
+            else:
+                field_value = res.get(field, 'error')
+            if field_value == 'error':
+                logs = f"The field \'{field_list[0]}\' is not found, Please check!"
+                logging.warning(logs)
+                break
+            else:
+                del field_list[0]
+                return get_relevance_parameter(field_value, field_list)
 
 
 if __name__ == '__main__':
@@ -216,5 +244,4 @@ if __name__ == '__main__':
     b = 'data.[0]'
     c = 'data.[0].name'
     d = 'data.[0].age'
-    result = get_relevance_parameter(res, c)
-    print(result)
+    get_relevance_parameter(res, d)
