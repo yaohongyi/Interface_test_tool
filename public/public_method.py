@@ -232,16 +232,12 @@ def get_relevance_parameter(res, field_name):
 
 
 if __name__ == '__main__':
-    res = {
-        'hasError': False,
-        'errorDesc': '',
-        'data': [
-            {'name': 'lily', 'age': 18},
-            {'name': 'lucy', 'age': 19}
-        ]
-    }
-    a = 'hasError'
-    b = 'data.[0]'
-    c = 'data.[0].name'
-    d = 'data.[0].age'
-    get_relevance_parameter(res, d)
+    # res = {
+    #     'hasError': False,
+    #     'errorDesc': '',
+    #     'data': [
+    #         {'name': 'lily', 'age': 18},
+    #         {'name': 'lucy', 'age': 19}
+    #     ]
+    # }
+    ...

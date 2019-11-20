@@ -53,4 +53,3 @@ if __name__ == '__main__':
     u = 'http://192.168.0.75:20006/call?id=experts.login&v='
     ir = InterfaceRequest(u, d)
     r = ir.post_request()
-    print(r)
