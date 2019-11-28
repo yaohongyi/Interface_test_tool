@@ -95,7 +95,7 @@ class Client(QWidget):
         self.button_grid.addWidget(self.save_button, 0, 1)
         self.button_grid.addWidget(self.clear_button, 0, 2)
         # 【响应信息】分组框元素
-        self.response_group_box = QGroupBox('【响应信息】')
+        self.response_group_box = QGroupBox('【日志打印】')
         self.client_grid.addWidget(self.response_group_box, 0, 1, 10, 1)
         self.response_text = QTextBrowser()
         # 【响应信息】分组框布局
