@@ -4,6 +4,9 @@
 
 import sys
 import logging
+import os
+if hasattr(sys, 'frozen'):
+    os.environ['PATH'] = sys._MEIPASS + ";" + os.environ['PATH']
 from public import public_method
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import *
@@ -16,7 +19,7 @@ class Client(QWidget):
         '''窗口绘制'''
         self.setFixedSize(1200, 600)
         self.setWindowTitle('接口测试工具_都君_V0.1')
-        self.setWindowIcon(QtGui.QIcon('./picture/公鸡.png'))
+        self.setWindowIcon(QtGui.QIcon('./picture/rooster.png'))
         self.client_grid = QGridLayout(self)
         # 【请求信息】分组框元素
         self.request_group_box = QGroupBox('【请求信息】')
