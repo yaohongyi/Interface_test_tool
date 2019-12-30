@@ -1,0 +1,24 @@
+2019-12-30 15:07:57 [INFO] 【请求消息】：
+{
+    "nickname":"yaocheng",
+    "passwd":"123456"
+}
+2019-12-30 15:07:57 [INFO] 【响应消息】：
+{
+    "hasError":false,
+    "errorDesc":"",
+    "data":{
+        "sessionId":"8TtNrQ6u9SszpThWHD93aTx3eG6RW54l5HgGtSNdBPYuW4xktj8XD0Xsh98qsZLq",
+        "token":"",
+        "userid":"yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
+        "authList":{
+            "AuthAllocateCase":true,
+            "AuthCreateCase":true,
+            "AuthDeleteCase":true,
+            "AuthGiveCase":true,
+            "AuthManageUser":true,
+            "AuthOverCase":true,
+            "AuthRenameCase":true
+        }
+    }
+}
