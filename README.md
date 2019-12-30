@@ -2,7 +2,7 @@
 
 # 一、工具预览
 
-![image-20191230145008462](C:\Users\yaoch\AppData\Roaming\Typora\typora-user-images\image-20191230145008462.png)
+[接口测试工具](https://github.com/yaohongyi/picture/blob/master/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7.png?raw=true)
 
 
 
