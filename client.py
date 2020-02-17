@@ -19,7 +19,7 @@ class Client(QWidget):
         '''窗口绘制'''
         self.setFixedSize(1200, 600)
         self.setWindowTitle('接口测试工具_都君_V0.1')
-        self.setWindowIcon(QtGui.QIcon('./picture/rooster.png'))
+        self.setWindowIcon(QtGui.QIcon('./picture/send.ico'))
         self.client_grid = QGridLayout(self)
         # 【请求信息】分组框元素
         self.request_group_box = QGroupBox('【请求信息】')
@@ -42,7 +42,7 @@ class Client(QWidget):
         self.port_input.setPlaceholderText('请输入端口')
         self.path_label = QLabel('请求接口：')
         self.path_combo_box = QComboBox()
-        interface_name_list = public_method.get_interface_name_list()  # 通过excel读取下拉框可选项
+        interface_name_list = public_method.get_zh_interface_name_list()  # 通过excel读取下拉框可选项
         interface_name_list.insert(0, '自定义')
         self.path_combo_box.addItems(interface_name_list)
         self.path_combo_box.currentIndexChanged.connect(self.interface_option_change)

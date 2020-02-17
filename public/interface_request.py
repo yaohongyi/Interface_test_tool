@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # 都君丨大魔王
 import time
+import requests
 from public.public_method import *
 from PyQt5 import QtCore
 
@@ -35,7 +36,7 @@ class InterfaceRequest(QtCore.QThread):
         self.text.emit('')
         return res
 
-    def extra_request(self):
+    def extraction_request(self):
         """
         加强型POST接口请求，增加请求次数、请求时间间隔
         :return: None
@@ -45,7 +46,7 @@ class InterfaceRequest(QtCore.QThread):
             time.sleep(self.request_interval)
 
     def run(self):
-        self.extra_request()
+        self.extraction_request()
 
 
 if __name__ == '__main__':

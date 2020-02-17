@@ -6,7 +6,6 @@ import configparser
 import json
 import xlrd
 import logging
-import requests
 
 
 def get_project_name():
@@ -43,7 +42,7 @@ def get_log_path(file_name='interface_test.log'):
 def log_config():
     log_path = get_log_path()
     root_logger = logging.getLogger()
-    root_logger.setLevel('INFO')
+    root_logger.setLevel('DEBUG')
     basic_format = "%(asctime)s [%(levelname)s] %(message)s"
     date_format = '%Y-%m-%d %H:%M:%S'
     formatter = logging.Formatter(basic_format, date_format)
@@ -126,8 +125,8 @@ def read_excel(interface_name, sheet_name='接口配置') -> dict:
     """
     excel = xlrd.open_workbook(excel_path)
     sheet = excel.sheet_by_name(sheet_name)
-    case_title_list = sheet.col_values(1)
-    row_num = case_title_list.index(interface_name)
+    interface_name_list = sheet.col_values(1)
+    row_num = interface_name_list.index(interface_name)
     row_value = sheet.row_values(row_num)
     excel_data = {
         'interface_name': row_value[0],
@@ -136,13 +135,14 @@ def read_excel(interface_name, sheet_name='接口配置') -> dict:
         'method': row_value[3],
         'path': row_value[4],
         'parameter': row_value[5],
-        'relevance_interface': row_value[6],
-        'relevance_parameter': row_value[7]
+        'extraction': row_value[6]
     }
+    logging.info(f'Through interface name <{interface_name}> get excel data is:\n'
+                 f'{format_beautify(excel_data)}')
     return excel_data
 
 
-def get_interface_name_list(sheet_name='接口配置') -> list:
+def get_zh_interface_name_list(sheet_name='接口配置') -> list:
     """
     获取excel中的接口中文名列表
     :param sheet_name: sheet页名称
@@ -188,56 +188,27 @@ def format_beautify(dict_object):
     return dict_beautify
 
 
-def get_relevance_interface(excel_data):
-    """"""
-    relevance_interface_str = excel_data.get('relevance_interface')
-    relevance_interface_list = relevance_interface_str.split('、')
-    return relevance_interface_list
-
-
-def get_relevance_parameter(res, field_name):
-    """"""
-    if isinstance(field_name, str):
-        field_list = field_name.split('.')
-    else:
-        field_list = field_name
-    field_list_len = len(field_list)
-    if field_list_len == 1:
-        if field_list[0].startswith('[') and field_list[0].endswith(']'):
-            index = int(field_list[0][1:-1])
-            field_value = res[index]
-        else:
-            field_value = res.get(field_list[0], 'error')
-        if field_value == 'error':
-            logs = f"The field \'{field_list[0]}\' is not found, Please check!"
-            logging.warning(logs)
-        else:
-            logs = f"The field \'{field_list[0]}\' was be found, the value is：{field_value}"
-            logging.info(logs)
-        return field_value
-    else:
-        for field in field_list:
-            if field.startswith('[') and field.endswith(']'):
-                index = int(field[1:-1])
-                field_value = res[index]
-            else:
-                field_value = res.get(field, 'error')
-            if field_value == 'error':
-                logs = f"The field \'{field_list[0]}\' is not found, Please check!"
-                logging.warning(logs)
-                break
-            else:
-                del field_list[0]
-                return get_relevance_parameter(field_value, field_list)
+def get_extraction(interface_name):
+    excel_data = read_excel(interface_name)
 
 
 if __name__ == '__main__':
-    # res = {
-    #     'hasError': False,
-    #     'errorDesc': '',
-    #     'data': [
-    #         {'name': 'lily', 'age': 18},
-    #         {'name': 'lucy', 'age': 19}
-    #     ]
+    # rep = {
+    #     "hasError": False,
+    #     "errorDesc": "",
+    #     "data": {
+    #         "sessionId": "AzMB4M7veQC99TJsjQjRZMTncUkYvSLUrpIKyopm8f63VhlZd0dSvy0mqL5xw9eF",
+    #         "token": "",
+    #         "userid": "yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
+    #         "authList": {
+    #             "AuthAllocateCase": True,
+    #             "AuthCreateCase": True,
+    #             "AuthDeleteCase": True,
+    #             "AuthGiveCase": True,
+    #             "AuthManageUser": True,
+    #             "AuthOverCase": True,
+    #             "AuthRenameCase": True
+    #         }
+    #     }
     # }
-    ...
+    get_relevance_parameter('新增案件')
