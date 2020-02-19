@@ -193,22 +193,21 @@ def get_extraction(interface_name):
 
 
 if __name__ == '__main__':
-    # rep = {
-    #     "hasError": False,
-    #     "errorDesc": "",
-    #     "data": {
-    #         "sessionId": "AzMB4M7veQC99TJsjQjRZMTncUkYvSLUrpIKyopm8f63VhlZd0dSvy0mqL5xw9eF",
-    #         "token": "",
-    #         "userid": "yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
-    #         "authList": {
-    #             "AuthAllocateCase": True,
-    #             "AuthCreateCase": True,
-    #             "AuthDeleteCase": True,
-    #             "AuthGiveCase": True,
-    #             "AuthManageUser": True,
-    #             "AuthOverCase": True,
-    #             "AuthRenameCase": True
-    #         }
-    #     }
-    # }
-    get_relevance_parameter('新增案件')
+    rep = {
+        "hasError": False,
+        "errorDesc": "",
+        "data": {
+            "sessionId": "AzMB4M7veQC99TJsjQjRZMTncUkYvSLUrpIKyopm8f63VhlZd0dSvy0mqL5xw9eF",
+            "token": "",
+            "userid": "yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
+            "authList": {
+                "AuthAllocateCase": True,
+                "AuthCreateCase": True,
+                "AuthDeleteCase": True,
+                "AuthGiveCase": True,
+                "AuthManageUser": True,
+                "AuthOverCase": True,
+                "AuthRenameCase": True
+            }
+        }
+    }
