@@ -244,3 +244,144 @@
         }
     }
 }
+2020-10-22 10:26:48 [INFO] Through interface name <登录> get excel data is:
+{
+    "interface_name":"login",
+    "describe":"登录",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.login&v=",
+    "parameter":"{'nickname':'yaocheng' ,'passwd': '123456'}",
+    "extraction":"sessionId"
+}
+2020-10-22 10:26:58 [INFO] Through interface name <新增案件> get excel data is:
+{
+    "interface_name":"add_case",
+    "describe":"新增案件",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.newCriminalCase&v=",
+    "parameter":"{\"sessionId\":${sessionId},\"caseName\":\"20191115\",\"privateCase\":True}",
+    "extraction":""
+}
+2020-10-22 10:26:58 [ERROR] invalid syntax (<string>, line 1)
+2020-10-22 10:28:53 [INFO] Through interface name <登录> get excel data is:
+{
+    "interface_name":"login",
+    "describe":"登录",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.login&v=",
+    "parameter":"{'nickname':'yaocheng' ,'passwd': '123456'}",
+    "extraction":"sessionId"
+}
+2020-10-22 10:28:55 [DEBUG] The window info is：
+{
+    "protocol":"http",
+    "request_method":"post",
+    "ip":"192.168.0.75",
+    "port":"20000",
+    "path":"/call?id=experts.login&v=",
+    "request_time":1,
+    "request_interval":0,
+    "parameter":"{'nickname': 'yaocheng', 'passwd': '123456'}"
+}
+2020-10-22 10:28:55 [DEBUG] Starting new HTTP connection (1): 192.168.0.75:20000
+2020-10-22 10:28:55 [DEBUG] http://192.168.0.75:20000 "POST /call?id=experts.login&v= HTTP/1.1" 200 415
+2020-10-22 10:28:55 [INFO] 【请求消息】：
+{
+    "nickname":"yaocheng",
+    "passwd":"123456"
+}
+2020-10-22 10:28:55 [INFO] 【响应消息】：
+{
+    "hasError":false,
+    "errorDesc":"",
+    "data":{
+        "sessionId":"jOLpJMzDTPxrauc67pu2VBSKVVw5fc82NPsIfpxY0bX9UzSPsZEzstX9RESaIF9t",
+        "token":"",
+        "userid":"yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
+        "authList":{
+            "AuthAllocateCase":true,
+            "AuthCreateCase":true,
+            "AuthDeleteCase":true,
+            "AuthEditCase":true,
+            "AuthGiveCase":true,
+            "AuthManageUser":true,
+            "AuthOverCase":true,
+            "AuthRenameCase":true,
+            "AuthShareCase":true
+        }
+    }
+}
+2020-10-22 11:02:39 [INFO] Through interface name <login> get excel data is:
+{
+    "interface_name":"login",
+    "describe":"登录",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.login&v=",
+    "parameter":"{'nickname':'yaocheng' ,'passwd': '123456'}",
+    "extraction":"session_id=$.data.sessionId"
+}
+2020-10-22 11:03:03 [INFO] Through interface name <login> get excel data is:
+{
+    "interface_name":"login",
+    "describe":"登录",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.login&v=",
+    "parameter":"{'nickname':'yaocheng' ,'passwd': '123456'}",
+    "extraction":"session_id=$.data.sessionId"
+}
+2020-10-22 11:03:33 [INFO] Through interface name <login> get excel data is:
+{
+    "interface_name":"login",
+    "describe":"登录",
+    "protocol":"http",
+    "method":"post",
+    "path":"/call?id=experts.login&v=",
+    "parameter":"{'nickname':'yaocheng' ,'passwd': '123456'}",
+    "extraction":"session_id=$.data.sessionId"
+}
+2020-10-22 16:23:19 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:23:19 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:23:19 [DEBUG] 节点值所在索引值为1！
+2020-10-22 16:23:19 [DEBUG] 根据节点索引获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}！
+2020-10-22 16:23:19 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:24:07 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:24:07 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:24:07 [DEBUG] 节点值所在索引值为1！
+2020-10-22 16:24:07 [DEBUG] 根据节点索引获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}！
+2020-10-22 16:24:07 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:24:07 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb！
+2020-10-22 16:24:24 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:24:24 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:24:24 [DEBUG] 节点值所在索引值为1。
+2020-10-22 16:24:24 [DEBUG] 根据节点索引获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}。
+2020-10-22 16:24:24 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:24:24 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb！
+2020-10-22 16:24:57 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:24:57 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:24:57 [DEBUG] 根据节点索引1获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}。
+2020-10-22 16:24:57 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:24:57 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb！
+2020-10-22 16:25:07 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:25:07 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:25:07 [DEBUG] 根据节点索引 1 获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}。
+2020-10-22 16:25:07 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:25:07 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb！
+2020-10-22 16:25:18 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:25:18 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:25:18 [DEBUG] 根据节点索引<1>获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}。
+2020-10-22 16:25:18 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:25:18 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb！
+2020-10-22 16:25:58 [DEBUG] 开始获取data节点的值！
+2020-10-22 16:25:58 [DEBUG] 开始获取grouplist[1]节点的值！
+2020-10-22 16:25:58 [DEBUG] 根据节点索引<1>获取到值为{'groupid': 'F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb', 'groupname': 'FE'}。
+2020-10-22 16:25:58 [DEBUG] 开始获取groupid节点的值！
+2020-10-22 16:25:58 [DEBUG] 最终获取到的节点值为F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb。
+2020-10-22 16:26:19 [DEBUG] 开始获取hasError节点的值！
+2020-10-22 16:26:19 [DEBUG] 最终获取到的节点值为False。
+2020-10-22 16:39:34 [DEBUG] 开始获取hasError节点的值！
+2020-10-22 16:39:34 [DEBUG] 最终获取到的节点值为False。

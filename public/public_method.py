@@ -4,6 +4,8 @@
 import os
 import configparser
 import json
+import re
+
 import xlrd
 import logging
 
@@ -125,7 +127,7 @@ def read_excel(interface_name, sheet_name='接口配置') -> dict:
     """
     excel = xlrd.open_workbook(excel_path)
     sheet = excel.sheet_by_name(sheet_name)
-    interface_name_list = sheet.col_values(1)
+    interface_name_list = sheet.col_values(0)
     row_num = interface_name_list.index(interface_name)
     row_value = sheet.row_values(row_num)
     excel_data = {
@@ -188,26 +190,41 @@ def format_beautify(dict_object):
     return dict_beautify
 
 
-def get_extraction(interface_name):
-    excel_data = read_excel(interface_name)
+def get_variable_info(variable: str):
+    variable_info = variable.split('=')
+    variable_path = variable_info[1]
+    variable_path_info = variable_path.split('.')
+    return variable_path_info
+
+
+def get_variable_value(original_res, node_path_info: list):
+    if len(node_path_info) == 0:
+        logging.debug(f'最终获取到的节点值为{original_res}。')
+        return original_res
+    else:
+        for node_path in node_path_info:
+            logging.debug(f'开始获取{node_path}节点的值！')
+            del node_path_info[0]
+            # 通过方括号[]判断节点值是否从列表中获取
+            reg = r'([0-9]+)'
+            find_node = re.search(reg, node_path)
+            if find_node:
+                # 获取"["括号起始索引位置
+                brackets_start_index = find_node.span()[0]
+                # 获取节点值列表
+                node_name = node_path[:brackets_start_index-1]
+                node_value_list = original_res.get(node_name)
+                # 从列表中获取指定索引的值
+                node_index = int(find_node.group())
+                node_value = node_value_list[node_index]
+                logging.debug(f'根据节点索引<{node_index}>获取到值为{node_value}。')
+            else:
+                node_value = original_res.get(node_path, 'error')
+            return get_variable_value(node_value, node_path_info)
 
 
 if __name__ == '__main__':
-    rep = {
-        "hasError": False,
-        "errorDesc": "",
-        "data": {
-            "sessionId": "AzMB4M7veQC99TJsjQjRZMTncUkYvSLUrpIKyopm8f63VhlZd0dSvy0mqL5xw9eF",
-            "token": "",
-            "userid": "yEHrZZgVzFbyywRzlmmppK77fF16JtMABdvsMl7mNKYuGLnwk3wn3d1PQmK19Hh5",
-            "authList": {
-                "AuthAllocateCase": True,
-                "AuthCreateCase": True,
-                "AuthDeleteCase": True,
-                "AuthGiveCase": True,
-                "AuthManageUser": True,
-                "AuthOverCase": True,
-                "AuthRenameCase": True
-            }
-        }
-    }
+    test_res = {"hasError":False,"errorDesc":"","data":{"grouplist":[{"groupid":"whQdDYi0vupGY8Yd8c4PrwycVCqCsLJeLhJlKCbC2RF8kRsFMUyAMv51yzqkb8mB","groupname":"管理员"},{"groupid":"F2fHIZ4GYq8awrNF5zxxlTFsZDldxztTK72tD7hu5lvFFKz32AIMVEy2idiAWzTb","groupname":"FE"},{"groupid":"MJOt7J1kevT7HTBA0r0n0Ew2RyT4zhtvmgnPpgKWVjsA9y6wdm0P48w4Yyks41El","groupname":"TEST"},{"groupid":"4NNl3JbmJTGisER9epyi8plJ056kQOi3C2aWR5nEPhPUG6MCGKD2wZNGJBsGX1Oz","groupname":"DEV"},{"groupid":"qbCJyWOBCPe0fsyf2Vb3GDkRsSCCQxRwda3MjZtG0PAmdP1vQqJwCnG9TlLcHMnc","groupname":"abc"},{"groupid":"nTfSB5V1Cl1JXAcESjX9teVxPW5AJBYwYHGA7wS7efFYAxsW1Vso4WhVZ1063nIF","groupname":"销售部"},{"groupid":"Kj10JeFQXpzql4C4fA5YYISqNunEv25V2wNsVPG6mkvUcoCwtbygB0FKeLYBoveW","groupname":"测试分组"},{"groupid":"gKPISDbnwsIzutQzH97igzODy7ADQhFhUTbxaqiqCyPKMmJC78d7ZJzBNALVBqNW","groupname":"都君"},{"groupid":"ijFNYgEcXzk0NaBC0GhGQ27KH3B1vEtpBHokH1uNil1qiHhy6LJMJl3uInMag9Sc","groupname":"后端"},{"groupid":"Via0Q6KxYRlfPVlaaOsTrU5KjtlpH3JuOFRchTb8yEaqZu0TpANSNS1dCyvTcEDX","groupname":"教学版"}]}}
+    s = 'groupname=hasError'
+    a = get_variable_info(s)
+    result = get_variable_value(test_res, a)
